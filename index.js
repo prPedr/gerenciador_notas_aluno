@@ -2,7 +2,7 @@ import http from "http"
 import {v4} from "uuid"
 
 const porta = 3000
-const notas = []
+const notas = [] // Armazenamento em memória (perde tudo ao reiniciar o servidor)
 
 // Criacao do servidor ==> OBS: (request e response) SAO OBRIGATORIOS
 const servidor = http.createServer((request, response) => {
