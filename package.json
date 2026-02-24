@@ -9,5 +9,8 @@
   "keywords": [],
   "author": "Pedro Nascimento",
   "license": "ISC",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "uuid": "^13.0.0"
+  }
 }
