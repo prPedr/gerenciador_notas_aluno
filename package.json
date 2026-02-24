@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node --watch index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Pedro Nascimento",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "module"
 }
