@@ -1,10 +1,10 @@
 import http from "http"
 
-const notas_alunos = [
+const notasAluno = [
   {
-    "nomeEstudante": "Pedro",
-    "materia": "Back end com node js",
-    "nota": "10"
+    "nomeAluno": "Pedro",
+    "materiaAluno": "Back-end com node js",
+    "notaAluno": "10"
   }
 ]
 
@@ -12,11 +12,11 @@ const server = http.createServer((request, response) => {
   const {method, url} = request
 
   if (url === "/notas" && method === "GET") {
-    response.writeHead(200, {"content-type": "application/json"})
-    response.end(JSON.stringify(notas_alunos))
+    response.writeHead(200, {"content-type":"application/json"})
+    response.end(JSON.stringify(notasAluno))
   } else {
-    response.writeHead(404, {"content-type": "application/json"})
-    response.end(JSON.stringify({message: "Rota nao encontrada"}))
+    response.writeHead(404, {"content-type":"application/json"})
+    response.end(JSON.stringify({Mensagem: "Rota nao encontrada"}))
   }
 })
 
