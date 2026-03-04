@@ -1,9 +1,9 @@
-import http from "http"
-import { randomUUID } from "crypto"
+import http from "node:http"
+import { randomUUID } from "node:crypto"
 
 const informacoesAlunos = [
   {
-    "id": randomUUID,
+    "id": randomUUID(),
     "nomeAluno": "Pedro Nascimento",
     "materiaAluno": "Back end em node",
     "notaAluno": "10"
@@ -20,17 +20,24 @@ const server = http.createServer((request, response) => {
   })
 
   request.on("end", () => {
+    // ROTA DE LISTAGEM
     if (method === "GET" && url === "/alunos") {
       response.writeHead(200, { "content-type":"application/json" })
       response.end(JSON.stringify(informacoesAlunos))
-    } else if (method === "POST" && url === "/alunos") {
+    }
+    
+    // ROTA DE CRIACAO
+    else if (method === "POST" && url === "/alunos") {
       const { nomeAluno, materiaAluno, notaAluno } = JSON.parse(body)
-      const novasInformacoesAluno = {id: randomUUID, nomeAluno, materiaAluno, notaAluno}
+      const novasInformacoesAluno = {id: randomUUID(), nomeAluno, materiaAluno, notaAluno}
 
       informacoesAlunos.push(novasInformacoesAluno)
       response.writeHead(201, { "content-type":"application/json" })
       response.end(JSON.stringify(novasInformacoesAluno))
-    } else {
+    }
+    
+    // ROTA DE URL NAO ENCONTRADA
+    else {
       response.writeHead(404, { "content-type":"application/json" })
       response.end(JSON.stringify({Mensagem: "Rotao nao encontrada"}))
     }
