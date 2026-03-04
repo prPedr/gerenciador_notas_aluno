@@ -1,22 +1,22 @@
 import http from "http"
 
-const informacoesAluno = [
+const informacoesAlunos = [
   {
-    "nomeAluno": "Pedro",
-    "materiaAluno": "Back-end",
+    "nomeAluno": "Pedro Nascimento",
+    "materiaAluno": "Back end em node",
     "notaAluno": "10"
   }
 ]
 
 const server = http.createServer((request, response) => {
-  const {method, url} = request
+  const { method, url } = request
 
-  if (url === "/notas" && method === "GET") {
-    response.writeHead(200, {"content-type":"application/json"})
-    response.end(JSON.stringify(informacoesAluno))
+  if (method === "GET" && url === "/alunos") {
+    response.writeHead(200, { "content-type":"application/json" })
+    response.end(JSON.stringify(informacoesAlunos))
   } else {
-    response.writeHead(404, {"content-type":"application/json"})
-    response.end(JSON.stringify({Mensagem: "Rota nao encontrada"}))
+    response.writeHead(404, { "content-type":"application/json" })
+    response.end(JSON.stringify({Mensagem: "Rotao nao encontrada"}))
   }
 })
 
