@@ -47,8 +47,6 @@ const server = http.createServer((request, response) => {
       response.end(JSON.stringify({Mensagem: "Rota nao encontrada"}))
     }
   })
-  
-  
 })
 
 const porta = 3333
