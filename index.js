@@ -29,7 +29,13 @@ const server = http.createServer((request, response) => {
     // ROTA DE CRIACAO
     else if (method === "POST" && url === "/alunos") {
       const { nomeAluno, materiaAluno, notaAluno } = JSON.parse(body)
-      const novasInformacoesAluno = {id: randomUUID(), nomeAluno, materiaAluno, notaAluno}
+      
+      const novasInformacoesAluno = {
+        id: randomUUID(),
+        nomeAluno,
+        materiaAluno,
+        notaAluno
+      }
 
       informacoesAlunos.push(novasInformacoesAluno)
       response.writeHead(201, { "content-type":"application/json" })
