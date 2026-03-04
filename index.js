@@ -1,7 +1,9 @@
 import http from "http"
+import { randomUUID } from "crypto"
 
 const informacoesAlunos = [
   {
+    "id": randomUUID,
     "nomeAluno": "Pedro Nascimento",
     "materiaAluno": "Back end em node",
     "notaAluno": "10"
@@ -23,7 +25,7 @@ const server = http.createServer((request, response) => {
       response.end(JSON.stringify(informacoesAlunos))
     } else if (method === "POST" && url === "/alunos") {
       const { nomeAluno, materiaAluno, notaAluno } = JSON.parse(body)
-      const novasInformacoesAluno = {id, nomeAluno, materiaAluno, notaAluno}
+      const novasInformacoesAluno = {id: randomUUID, nomeAluno, materiaAluno, notaAluno}
 
       informacoesAlunos.push(novasInformacoesAluno)
       response.writeHead(201, { "content-type":"application/json" })
@@ -33,8 +35,6 @@ const server = http.createServer((request, response) => {
       response.end(JSON.stringify({Mensagem: "Rotao nao encontrada"}))
     }
   })
-
-  
 })
 
 const porta = 3333
