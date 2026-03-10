@@ -62,9 +62,11 @@ const server = http.createServer((request, response) => {
       const index = informacoesAlunos.findIndex(alunos => alunos.idAluno === idBuscaAluno)
 
       if (index !== -1) {
+        const nomeAlunoDeletado = informacoesAlunos[index].nomeAluno
+
         informacoesAlunos.splice(index, 1)
-        response.writeHead(204, {"content-type" : "application/json"})
-        response.end(JSON.stringify({Mensagem : "Aluno deletado"}))
+        response.writeHead(200, {"content-type" : "application/json"})
+        response.end(JSON.stringify({Mensagem : `${nomeAlunoDeletado} deletado`}))
       } else {
         response.writeHead(404, {"content-type" : "application/json"})
         response.end(JSON.stringify({Mensagem : "Aluno nao encontrado"}))
