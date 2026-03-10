@@ -58,6 +58,19 @@ const server = http.createServer((request, response) => {
       }
     }
 
+    else if (url.startsWith("/alunos") && method === "DELETE") {
+      const index = informacoesAlunos.findIndex(alunos => alunos.idAluno === idBuscaAluno)
+
+      if (index !== -1) {
+        informacoesAlunos.splice(index, 1)
+        response.writeHead(204, {"content-type" : "application/json"})
+        response.end(JSON.stringify({Mensagem : "Aluno deletado"}))
+      } else {
+        response.writeHead(404, {"content-type" : "application/json"})
+        response.end(JSON.stringify({Mensagem : "Aluno nao encontrado"}))
+      }
+    }
+
     else {
       response.writeHead(404, {"content-type" : "application/json"})
       response.end(JSON.stringify({Mensagem : "Rota nao encontrada"}))
