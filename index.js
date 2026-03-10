@@ -4,56 +4,28 @@ import { randomUUID } from "node:crypto"
 const informacoesAlunos = [
   {
     "idAluno" : randomUUID(),
-    "nomeAluno" : "Pedro",
-    "materiaAluno": "Back end com Node JS",
+    "nomeAluno" : "Renato Augusto",
+    "materiaAluno" : "Back end com Node.js",
     "notaAluno" : "10"
   }
 ]
 
 const server = http.createServer((request, response) => {
   const { method, url } = request
-  let body = ""
 
-  request.on("data", partesRequisicao => {
-    body += partesRequisicao
-  })
+  if (url === "/alunos" && method === "GET") {
+    response.writeHead(200, {"content-type" : "application/json"})
+    response.end(JSON.stringify(informacoesAlunos))
+  }
 
-  request.on("end", () => {
-
-    // RORA DA LISTAGEM
-    if (url === "/alunos" && method === "GET") {
-      response.writeHead(200, {"content-type" : "application/json"})
-      response.end(JSON.stringify(informacoesAlunos))
-    }
-
-    // ROTA DE CRIACAO
-    else if (url === "/alunos" && method === "POST") {
-      const { nomeAluno, materiaAluno, notaAluno } = JSON.parse(body)
-
-      const novasInformacoesAlunos = {
-        id : randomUUID(),
-        nomeAluno,
-        materiaAluno,
-        notaAluno
-      }
-
-      informacoesAlunos.push(novasInformacoesAlunos)
-
-      response.writeHead(201, {"content-type" : "application/json"})
-      response.end(JSON.stringify(novasInformacoesAlunos))
-    }
-
-    // ROTA DE ERRO DE ROTA
-    else {
-      response.writeHead(404, {"content-type" : "application/json"})
-      response.end(JSON.stringify({Mensagem : "Rota nao encontrada"}))
-    }
-  })
-  
+  else {
+    response.writeHead(404, {"content-type" : "application/json"})
+    response.end(JSON.stringify({Mensagem : "Rota nao encontrada"}))
+  }
 })
 
 const porta = 3333
 
 server.listen(porta, () => {
-  console.log(`Servidor rodando em http://localhost:${porta}`)
+  console.log(`Servidor rodando em hppt://localhost:${porta}`)
 })
