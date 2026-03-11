@@ -21,11 +21,13 @@ const server = http.createServer((request, response) => {
   request.on("end", () => {
     const idBuscaAluno = url.split("/")[2]
 
+    // ROTA DE LISTAGEM
     if (url === "/alunos" && method === "GET") {
       response.writeHead(200, {"content-type" : "application/json"})
       response.end(JSON.stringify(informacoesAlunos))
     }
 
+    // ROTA DE CRIACAO
     else if (url === "/alunos" && method === "POST") {
       const { nomeAluno, materiaAluno, notaAluno } = JSON.parse(body)
 
@@ -41,6 +43,7 @@ const server = http.createServer((request, response) => {
       response.end(JSON.stringify(novasInformacoesAlunos))
     }
 
+    // ROTA DE ATUALIZACAO
     else if (url.startsWith("/alunos/") && method === "PUT") {
       const { nomeAluno, materiaAluno, notaAluno } = JSON.parse(body)
       const atualizarAluno = informacoesAlunos.find(aluno => aluno.idAluno === idBuscaAluno)
@@ -58,6 +61,23 @@ const server = http.createServer((request, response) => {
       }
     }
 
+    // ROTA DE DELETAR
+    else if (url.startsWith("/alunos/") && method === "DELETE") {
+      const deletarAluno = informacoesAlunos.findIndex(aluno => aluno.idAluno === idBuscaAluno)
+
+      if (deletarAluno !== -1) {
+        const nomeAlunoDeletado = informacoesAlunos[deletarAluno].nomeAluno
+
+        informacoesAlunos.splice(deletarAluno, 1)
+        response.writeHead(200, {"content-type" : "application/json"})
+        response.end(JSON.stringify({Mensagem : `${nomeAlunoDeletado} deletado`}))
+      } else {
+        response.writeHead(404, {"content-type" : "application/json"})
+        response.end(JSON.stringify({Mensagem : "Aluno nao encontrado"}))
+      }
+    }
+
+    // ROTA DE URL NAO ENCONTRADA
     else {
       response.writeHead(404, {"content-type" : "application'json"})
       response.end(JSON.stringify({Mensagem : "Rota nao encontrada"}))
