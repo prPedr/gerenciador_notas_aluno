@@ -19,6 +19,8 @@ const server = http.createServer((request, response) => {
   })
 
   request.on("end", () => {
+    const idBuscaAluno = url.split("/")[2]
+
     if (url === "/alunos" && method === "GET") {
       response.writeHead(200, {"content-type" : "application/json"})
       response.end(JSON.stringify(informacoesAlunos))
@@ -28,7 +30,7 @@ const server = http.createServer((request, response) => {
       const { nomeAluno, materiaAluno, notaAluno } = JSON.parse(body)
 
       const novasInformacoesAlunos = {
-        id : randomUUID(),
+        idAluno : randomUUID(),
         nomeAluno,
         materiaAluno,
         notaAluno
@@ -37,6 +39,23 @@ const server = http.createServer((request, response) => {
       informacoesAlunos.push(novasInformacoesAlunos)
       response.writeHead(201, {"content-type" : "application/json"})
       response.end(JSON.stringify(novasInformacoesAlunos))
+    }
+
+    else if (url.startsWith("/alunos/") && method === "PUT") {
+      const { nomeAluno, materiaAluno, notaAluno } = JSON.parse(body)
+      const atualizarAluno = informacoesAlunos.find(aluno => aluno.idAluno === idBuscaAluno)
+
+      if (atualizarAluno) {
+        atualizarAluno.nomeAluno = nomeAluno
+        atualizarAluno.materiaAluno = materiaAluno
+        atualizarAluno.notaAluno = notaAluno
+
+        response.writeHead(200, {"content-type" : "äpplication/json"})
+        response.end(JSON.stringify(atualizarAluno))
+      } else {
+        response.writeHead(404, {"content-type" : "application/json"})
+        response.end(JSON.stringify({Mensagem : "Aluno nao encontrado"}))
+      }
     }
 
     else {
