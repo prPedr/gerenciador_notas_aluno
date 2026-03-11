@@ -19,6 +19,8 @@ const server = http.createServer((request, response) => {
   })
 
   request.on("end", () => {
+    const idBuscaAluno = url.split("/")[2]
+
     if (url === "/alunos" && method === "GET") {
       response.writeHead(200, {"content-type" : "application/json"})
       response.end(JSON.stringify(informacoesAluno))
@@ -37,6 +39,23 @@ const server = http.createServer((request, response) => {
       informacoesAluno.push(novasInformacoesAluno)
       response.writeHead(201, {"content-type" : "application/json"})
       response.end(JSON.stringify(novasInformacoesAluno))
+    }
+
+    else if (url.startsWith("/alunos/") && method === "PUT") {
+      const { nomeAluno, materiaAluno, notaAluno } = JSON.parse(body)
+      const atualizarAluno = informacoesAluno.find(aluno => aluno.idAluno === idBuscaAluno)
+
+      if (atualizarAluno) {
+        atualizarAluno.nomeAluno = nomeAluno
+        atualizarAluno.materiaAluno = materiaAluno
+        atualizarAluno.notaAluno = notaAluno
+
+        response.writeHead(200, {"content-type" : "application/json"})
+        response.end(JSON.stringify(atualizarAluno))
+      } else {
+        response.writeHead(404, {"content-type" : "application/json"})
+        response.end(JSON.stringify({Mensagem : "Aluno nao encontrado"}))
+      }
     }
 
     else {
