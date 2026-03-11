@@ -12,16 +12,40 @@ const informacoesAluno = [
 
 const server = http.createServer((request, response) => {
   const { method, url } = request
+  let body = ""
 
-  if (url === "/alunos" && method === "GET") {
-    response.writeHead(200, {"content-type" : "application/json"})
-    response.end(JSON.stringify(informacoesAluno))
-  }
+  request.on("data", partesRequisicao => {
+    body += partesRequisicao
+  })
 
-  else {
-    response.writeHead(404, {"content-type" : "application/json"})
-    response.end(JSON.stringify({Mensagem : "Rota nao encontrada"}))
-  }
+  request.on("end", () => {
+    if (url === "/alunos" && method === "GET") {
+      response.writeHead(200, {"content-type" : "application/json"})
+      response.end(JSON.stringify(informacoesAluno))
+    }
+
+    else if (url === "/alunos" && method === "POST") {
+      const { nomeAluno, materiaAluno, notaAluno } = JSON.parse(body)
+
+      const novasInformacoesAluno = {
+        idAluno : randomUUID(),
+        nomeAluno,
+        materiaAluno,
+        notaAluno
+      }
+
+      informacoesAluno.push(novasInformacoesAluno)
+      response.writeHead(201, {"content-type" : "application/json"})
+      response.end(JSON.stringify(novasInformacoesAluno))
+    }
+
+    else {
+      response.writeHead(404, {"content-type" : "application/json"})
+      response.end(JSON.stringify({Mensagem : "Rota nao encontrada"}))
+    }
+  })
+
+  
 })
 
 const porta = 3111
